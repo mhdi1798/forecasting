@@ -1,0 +1,144 @@
+<?php
+$analisa = get_analisa();
+
+//echo '<pre>' . print_r($analisa, 1) . '</pre>';
+
+foreach ($analisa as $key_jenis => $val_jenis) :
+
+    $ses = new SES($val_jenis, $next_periode, $alpha);
+    //echo '<pre>' . print_r($ses, 1) . '</pre>';
+    $categories = array();
+    $series = array();
+?>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><a data-toggle="collapse" href="#c_<?= $key_jenis ?>"><?= $JENIS[$key_jenis] ?></a></h3>
+        </div>
+        <div class="table-responsive collapse in" id="c_<?= $key_jenis ?>">
+            <table class="table table-bordered table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Periode (t)</th>
+                        <th>Y<sub>t</sub></th>
+                        <th>&alpha;</th>
+                        <th>1-&alpha;</th>
+                        <th>&alpha;Y<sub>t</sub></th>
+                        <th>F<sub>t</sub></th>
+                        <th>e<sub>t</sub></th>
+                        <th>e<sub>t</sub><sup>2</sup></th>
+                        <th>|e<sub>t</sub>|</th>
+                        <th>|e<sub>t</sub> / y<sub>t</sub>|</th>
+                    </tr>
+                </thead>
+                <?php foreach ($val_jenis as $key => $val) :
+                    $categories[$key] =  date('M-Y', strtotime($key));
+                    $series['aktual']['data'][$key] = $val * 1;
+                    $series['prediksi']['data'][$key] = round($ses->ft[$key], 3); ?>
+                    <tr>
+                        <td><?= date('M-Y', strtotime($key)) ?></td>
+                        <td><?= number_format($val) ?></td>
+                        <td><?= $alpha ?></td>
+                        <td><?= 1 - $alpha ?></td>
+                        <td><?= number_format($ses->alpha_yt[$key], 3) ?></td>
+                        <td><?= number_format($ses->ft[$key], 3) ?></td>
+                        <td><?= number_format($ses->et[$key], 3) ?></td>
+                        <td><?= number_format($ses->et_square[$key], 3) ?></td>
+                        <td><?= number_format($ses->et_abs[$key], 3) ?></td>
+                        <td><?= number_format($ses->et_yt[$key], 3) ?></td>
+                    </tr>
+                <?php endforeach ?>
+                <tr>
+                    <td colspan="7" class="text-right">MSE (Mean Squared Error)</td>
+                    <td><?= number_format($ses->error['MSE'], 3) ?></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="7" class="text-right">RMSE (Root Mean Squared Error)</td>
+                    <td><?= number_format($ses->error['RMSE'], 3) ?></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="7" class="text-right">MAE (Mean Absolute Error)</td>
+                    <td>&nbsp;</td>
+                    <td><?= number_format($ses->error['MAE'], 3) ?></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="7" class="text-right">MAPE (Mean Absolute Percentage Error)</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><?= number_format($ses->error['MAPE'], 3) ?> % </td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel-body">
+            Hasil Prediksi:
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Periode (n)</th>
+                        <th>F<sub>t</sub></th>
+                    </tr>
+                </thead>
+                <?php foreach ($ses->next_ft as $key => $val) :
+                    $categories[$key] =  date('M-Y', strtotime($key));
+                    $series['aktual']['data'][$key] = null;
+                    $series['prediksi']['data'][$key] = round($val, 3); ?>
+                    <tr>
+                        <td><?= date('M-Y', strtotime($key)) ?></td>
+                        <td><?= number_format($val, 3) ?></td>
+                    </tr>
+                <?php endforeach ?>
+            </table>
+        </div>
+        <div class="panel-body">
+            <script src="assets/js/highcharts.js"></script>
+            <script src="assets/js/modules/exporting.js"></script>
+            <script src="assets/js/modules/export-data.js"></script>
+            <script src="assets/js/modules/accessibility.js"></script>
+            <div id="container_<?= $key_jenis ?>"></div>
+            <script>
+                <?php
+                $categories = array_values($categories);
+                $series['aktual']['name'] = 'Aktual';
+                $series['prediksi']['name'] = 'Prediksi';
+                $series['aktual']['data'] = array_values($series['aktual']['data']);
+                $series['prediksi']['data'] = array_values($series['prediksi']['data']);
+                $series = array_values($series);
+                ?>
+                Highcharts.chart('container_<?= $key_jenis ?>', {
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Grafik Data dan Hasil Prediksi ' + '<?= $JENIS[$key_jenis] ?>'
+                    },
+                    // subtitle: {
+                    //     text: 'Source: WorldClimate.com'
+                    // },
+                    xAxis: {
+                        categories: <?= json_encode($categories) ?>
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Total'
+                        }
+                    },
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            },
+                            enableMouseTracking: false
+                        }
+                    },
+                    series: <?= json_encode($series) ?>
+                });
+            </script>
+        </div>
+    </div>
+<?php endforeach ?>

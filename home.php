@@ -1,0 +1,6 @@
+<div class="page-header">
+    <h1>Forecasting Penjualan toko sepatu Solee.co Store</h1>
+</div>
+<p>Forecasting atau perkiraan adalah kegiatan yang bertujuan untuk meramalkan atau memprediksi segala hal yang terkait dengan produksi, penawaran, permintaan ,dan penggunaan teknologi dalam sebuah industri atau usaha. Untuk menjamin sebuah tingkat perkiraan yang akurat dan bisa digunakan sebagai dasar perhitungan sebuah proses bisnis kedepannya, tentu butuh sebuah alat ukur yang akurat dan teruji berdasarkan jenis perkiraan itu sendiri.</p>
+<p>Metode trend moment merupakan analisis yang dapat digunakan untuk keperluan peramalan dengan membentuk persamaan Y=a+b(X) sebagaimana telah diulas pada metode trend semi average. Dalam penerapannya metode ini tidak mensyaratkan jumlah data harus genap. Perbedaan dengan metode trend semi average terletak pada pemberian skor X. Pada metode Moment skor X dimulai dari dimulai dari 0,1,2, dst.</p>
+<p>Metode Single Exponential Smoothing adalah metode yang menunjukan pembobotan menurun secara eksponensial terhadap nilai observasi yang lebih tua. Yaitu nilai yang lebih baru diberikan bobot yang relatif lebih besar dibanding nilai observasi yang lebih lama. Metode ini memberikan sebuah pembobotan eksponensial rata-rata bergerak dari semua nilai observasisebelumnya. Pada metode ini tidak dipengaruhi oleh trend maupun musim.</p>
