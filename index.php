@@ -38,13 +38,13 @@ include 'functions.php';
             <li><a href="?m=periode"><span class="glyphicon glyphicon-calendar"></span> Periode</a></li>
             <li><a href="?m=ses"><span class="glyphicon glyphicon-signal"></span> SES</a></li>
             <li><a href="?m=tm"><span class="glyphicon glyphicon-signal"></span> TM</a></li>
-            <li><a href="?m=perbandingan"><span class="glyphicon glyphicon-signal"></span> Perbandingan</a></li>
+            <li><a href="?m=Perbandingan"><span class="glyphicon glyphicon-signal"></span> Perbandingan</a></li>
             <li><a href="?m=password"><span class="glyphicon glyphicon-lock"></span> Password</a></li>
             <li><a href="aksi.php?act=logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
           <?php else : ?>
             <li><a href="?m=ses"><span class="glyphicon glyphicon-signal"></span> SES</a></li>
             <li><a href="?m=tm"><span class="glyphicon glyphicon-signal"></span> TM</a></li>
-            <li><a href="?m=perbandingan"><span class="glyphicon glyphicon-signal"></span> Perbandingan</a></li>
+            <li><a href="?m=Perbandingan"><span class="glyphicon glyphicon-signal"></span> Perbandingan</a></li>
             <li><a href="?m=tentang"><span class="glyphicon glyphicon-info-sign"></span> Tentang</a></li>
             <li><a href="?m=login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           <?php endif ?>
